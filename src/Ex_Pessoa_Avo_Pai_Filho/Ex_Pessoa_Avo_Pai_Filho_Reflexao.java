@@ -1,21 +1,20 @@
-package Ex_Avo_Pai_Filho;
+package Ex_Pessoa_Avo_Pai_Filho;
 
 import javax.swing.*;
-import java.beans.MethodDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-public class Ex_Avo_Pai_Filho_Main {
+public class Ex_Pessoa_Avo_Pai_Filho_Reflexao {
     public static void main(String[] args){
 
         try {
 
             Class<?> cls = Class.forName(
                     JOptionPane.showInputDialog("Nome da classe que descende de Pessoa:",
-                            "Ex_Avo_Pai_Filho."));
+                            "Ex_Pessoa_Avo_Pai_Filho."));
 
             System.out.println("CLASS: " + cls.getName());
 

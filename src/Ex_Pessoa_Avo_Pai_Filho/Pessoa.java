@@ -1,4 +1,4 @@
-package Ex_Avo_Pai_Filho;
+package Ex_Pessoa_Avo_Pai_Filho;
 
 public abstract class Pessoa {
     private String nome;

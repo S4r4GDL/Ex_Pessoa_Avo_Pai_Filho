@@ -1,4 +1,4 @@
-package Ex_Avo_Pai_Filho;
+package Ex_Pessoa_Avo_Pai_Filho;
 
 public class Avo extends Pessoa {
     private int numeroINSS;
