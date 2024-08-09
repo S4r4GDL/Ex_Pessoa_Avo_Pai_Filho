@@ -1,9 +1,10 @@
 package Ex_Pessoa_Avo_Pai_Filho;
 
-public class Pai extends Pessoa{
+public class Pai extends Pessoa {
     private String cargo;
 
-    public Pai(){}
+    public Pai() {
+    }
 
     public Pai(String cargo) {
         this.cargo = cargo;
@@ -26,7 +27,8 @@ public class Pai extends Pessoa{
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }
-    public void setFilhos(Filho f1, Filho f2){
+
+    public void setFilhos(Filho f1, Filho f2) {
 
     }
 }

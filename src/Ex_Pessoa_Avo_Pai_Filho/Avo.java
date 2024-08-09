@@ -3,7 +3,8 @@ package Ex_Pessoa_Avo_Pai_Filho;
 public class Avo extends Pessoa {
     private int numeroINSS;
 
-    public Avo(){}
+    public Avo() {
+    }
 
     public Avo(int numeroINSS) {
         this.numeroINSS = numeroINSS;

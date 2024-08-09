@@ -1,9 +1,10 @@
 package Ex_Pessoa_Avo_Pai_Filho;
 
-public class Filho extends Pessoa{
+public class Filho extends Pessoa {
     private int serieEscolar;
 
-    public Filho(){}
+    public Filho() {
+    }
 
     public Filho(int serieEscolar) {
         this.serieEscolar = serieEscolar;

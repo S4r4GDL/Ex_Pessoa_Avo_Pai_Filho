@@ -5,7 +5,8 @@ public abstract class Pessoa {
     private String cpf;
     private Integer idade;
 
-    public Pessoa(){}
+    public Pessoa() {
+    }
 
     public Pessoa(String nome, String cpf, Integer idade) {
         this.nome = nome;
@@ -36,5 +37,6 @@ public abstract class Pessoa {
     public void setIdade(Integer idade) {
         this.idade = idade;
     }
+
     public abstract String getTipoVoz();
 }

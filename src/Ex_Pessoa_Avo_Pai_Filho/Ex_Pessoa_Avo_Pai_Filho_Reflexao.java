@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class Ex_Pessoa_Avo_Pai_Filho_Reflexao {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         try {
 
@@ -18,13 +18,11 @@ public class Ex_Pessoa_Avo_Pai_Filho_Reflexao {
 
             String message = "ENCONTRADO: " + cls.getName()
                     + "\nNOME DA CLASSE: " + cls.getSimpleName()
-                    + "\nPODE SER ATRIBUÍDO DE PESSOA: " + ((Pessoa.class.isAssignableFrom(cls)) ?
-                        " SIM \n" :
-                        " NÃO \n")
+                    + "\nPODE SER ATRIBUÍDO DE PESSOA: " + ((Pessoa.class.isAssignableFrom(cls)) ? " SIM \n" : " NÃO \n")
                     + "\nATRIBUTOS:\n" + getAllFields(cls)
                     + "\nMÉTODOS:\n" + getAllMethods(cls);
 
-            JTextArea textArea = new JTextArea(message, 25,  45);
+            JTextArea textArea = new JTextArea(message, 25, 45);
             textArea.setEditable(false);
             textArea.setWrapStyleWord(true);
 
@@ -33,7 +31,6 @@ public class Ex_Pessoa_Avo_Pai_Filho_Reflexao {
             sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
             JOptionPane.showMessageDialog(null, sp);
-
 
 
         } catch (Throwable e) {
@@ -51,31 +48,30 @@ public class Ex_Pessoa_Avo_Pai_Filho_Reflexao {
 
         Stream<Method> allMethods = Stream.concat(Arrays.stream(declaredMethods), Arrays.stream(superMethods));
 
-        if(Stream.concat(Arrays.stream(declaredMethods), Arrays.stream(superMethods)).findAny().isPresent()){
-        allMethods.forEach(mtd -> {
+        if (Stream.concat(Arrays.stream(declaredMethods), Arrays.stream(superMethods)).findAny().isPresent()) {
+            allMethods.forEach(mtd -> {
 
-           methods.append("\nFullname: ")
-                   .append(mtd)
-                   .append("\n\n--- Descricao geral ---\n")
-                   .append("\n     Nome: ").append(mtd.getName())
-                   .append("\n     Modificadores: ").append(Modifier.toString(mtd.getModifiers()))
-                   .append("\n     Tipo do retorno: ").append(mtd.getReturnType())
-                   .append("\n     Numero de parametros: ").append(mtd.getParameterCount())
-                   .append("\n     Lista de parametros: \n");
+                methods.append("\nFullname: ")
+                        .append(mtd)
+                        .append("\n\n--- Descricao geral ---\n")
+                        .append("\n     Nome: ").append(mtd.getName())
+                        .append("\n     Modificadores: ").append(Modifier.toString(mtd.getModifiers()))
+                        .append("\n     Tipo do retorno: ").append(mtd.getReturnType())
+                        .append("\n     Numero de parametros: ").append(mtd.getParameterCount())
+                        .append("\n     Lista de parametros: \n");
 
-            if(mtd.getParameterCount()>0){
-                Arrays.stream(mtd.getParameterTypes()).forEach(par -> {
-                    methods.append("            * ").append(par.getName()).append("\n");
-                });
-            }
-            else {
-                methods.append("        Não há parametros nesse metodo\n");
-            }
+                if (mtd.getParameterCount() > 0) {
+                    Arrays.stream(mtd.getParameterTypes()).forEach(par -> {
+                        methods.append("            * ").append(par.getName()).append("\n");
+                    });
+                } else {
+                    methods.append("        Não há parametros nesse metodo\n");
+                }
 
-            methods.append("------------------------------------------------------------------------------------------------\n\n");
+                methods.append("------------------------------------------------------------------------------------------------\n\n");
 
-        });}
-        else {
+            });
+        } else {
             methods.append("\nNão há métodos\n");
         }
         return methods.toString();
@@ -89,21 +85,21 @@ public class Ex_Pessoa_Avo_Pai_Filho_Reflexao {
         Field[] superFields = cls.getSuperclass().getDeclaredFields();
 
         Stream<Field> allFields = Stream.concat(Arrays.stream(declaredFields), Arrays.stream(superFields));
-        if(Stream.concat(Arrays.stream(declaredFields), Arrays.stream(superFields)).findAny().isPresent()){
-        allFields.forEach(fld -> {
+        if (Stream.concat(Arrays.stream(declaredFields), Arrays.stream(superFields)).findAny().isPresent()) {
+            allFields.forEach(fld -> {
 
-            fields.append("\nFullname: ").append(fld)
-                    .append("\n\n--- Descricao geral ---\n")
-                    .append("\n     Nome: ").append(fld.getName())
-                    .append("\n     Modificadores: ").append(Modifier.toString(fld.getModifiers()))
-                    .append("\n     Tipo: ").append(fld.getType().getSimpleName())
-                    .append("\n------------------------------------------------------------------------------------------------\n");
+                fields.append("\nFullname: ").append(fld)
+                        .append("\n\n--- Descricao geral ---\n")
+                        .append("\n     Nome: ").append(fld.getName())
+                        .append("\n     Modificadores: ").append(Modifier.toString(fld.getModifiers()))
+                        .append("\n     Tipo: ").append(fld.getType().getSimpleName())
+                        .append("\n------------------------------------------------------------------------------------------------\n");
 
-        });}
-        else {
-        fields.append("\nNão há atributos\n");
-    }
-            return fields.toString();
+            });
+        } else {
+            fields.append("\nNão há atributos\n");
+        }
+        return fields.toString();
     }
 
 
