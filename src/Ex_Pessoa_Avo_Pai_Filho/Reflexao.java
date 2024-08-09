@@ -7,7 +7,9 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-public class Ex_Pessoa_Avo_Pai_Filho_Reflexao {
+
+public class Reflexao {
+
     public static void main(String[] args) {
 
         try {

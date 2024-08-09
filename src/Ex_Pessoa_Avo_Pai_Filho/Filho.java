@@ -17,7 +17,7 @@ public class Filho extends Pessoa {
 
     @Override
     public String getTipoVoz() {
-        return "";
+        return "Aguda";
     }
 
     public int getSerieEscolar() {
