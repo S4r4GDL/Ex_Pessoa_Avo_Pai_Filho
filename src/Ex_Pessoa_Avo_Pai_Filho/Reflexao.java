@@ -14,9 +14,11 @@ public class Reflexao {
 
         try {
 
-            Class<?> cls = Class.forName(
+            Object inst = Class.forName(
                     JOptionPane.showInputDialog("Nome da classe:",
-                            "Ex_Pessoa_Avo_Pai_Filho."));
+                            "Ex_Pessoa_Avo_Pai_Filho.")).getConstructor().newInstance();
+
+            Class<?> cls = inst.getClass();
 
             String message = "ENCONTRADO: " + cls.getName()
                     + "\nNOME DA CLASSE: " + cls.getSimpleName()
