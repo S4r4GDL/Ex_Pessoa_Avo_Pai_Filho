@@ -8,17 +8,28 @@ import java.util.Arrays;
 
 public class Reflexao {
 
-    public static void imprimeDadosClasse(String classeNome) {
+    public static void geraDadosClasse(String classeNome) {
+        String resultado = "";
 
         try {
 
             Class<?> cls = Class.forName(classeNome);
 
+            resultado = processaClasse(cls) + cls.getSimpleName() + "\n PODE SER ATRIBUÍDO DE PESSOA: "
+                    + ((Pessoa.class.isAssignableFrom(cls)) ? " SIM \n" : " NÃO \n");
 
-            String message = "PODE SER ATRIBUÍDO DE PESSOA: "
-                    + ((Pessoa.class.isAssignableFrom(cls)) ? " SIM \n\n" : " NÃO \n\n")
-                    + processaClasse(cls);
 
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro no metodo gerar os dados da classe: " +  e);
+            System.exit(1);
+        }
+
+        imprimeDadosClasse(resultado);
+    }
+
+    public static void imprimeDadosClasse(String message) {
+
+        try {
             JTextArea textArea = new JTextArea(message, 25, 45);
             textArea.setEditable(false);
             textArea.setWrapStyleWord(true);
@@ -37,24 +48,24 @@ public class Reflexao {
     }
 
     private static String processaClasse(Class<?> cls) {
-        return processaClasseHeranca(cls, "");
+        return processaClasseHeranca(cls, new StringBuilder()).toString();
     }
 
-    private static String processaClasseHeranca(Class<?> cls, String texto) {
+    private static StringBuilder processaClasseHeranca(Class<?> cls, StringBuilder texto) {
 
         Class<?> superclass = cls.getSuperclass();
 
-        StringBuilder resultado = new StringBuilder(texto);
-
-        if (superclass != Object.class) {
-            resultado.append(processaClasseHeranca(superclass, resultado.toString()));
-        }
-
-        resultado.append("\nCLASS:")
+        StringBuilder resultado = texto.append("\nCLASS: ")
                 .append(cls.getSimpleName())
                 .append(descreveComponentesClasse(cls));
 
-        return resultado.toString();
+        if (superclass != Object.class) {
+            return processaClasseHeranca(superclass, resultado);
+        }
+
+        return resultado;
+
+
     }
 
     private static String descreveComponentesClasse(Class<?> cls) {
@@ -66,21 +77,36 @@ public class Reflexao {
         StringBuilder descricao = new StringBuilder();
         if (metodos.length > 0) {
             Arrays.stream(metodos).forEach(mtd -> {
-
-                descricao.append("\nFullname: ")
-                        .append(mtd)
-                        .append("\n\n--- Descricao geral ---\n")
-                        .append("\n     Nome: ").append(mtd.getName())
-                        .append("\n     Modificadores: ").append(Modifier.toString(mtd.getModifiers()))
-                        .append("\n     Tipo do retorno: ").append(mtd.getReturnType())
-                        .append("\n     Numero de parametros: ").append(mtd.getParameterCount())
-                        .append("\n     Lista de parametros: \n");
+                descricao.append(
+                        String.format("""
+                                        
+                                        METODO: %s\
+                                        
+                                        
+                                            --- Descricao geral ---\
+                                        
+                                                    Nome completo: %s\
+                                        
+                                                    Modificadores: %s\
+                                        
+                                                    Tipo do retorno: %s\
+                                        
+                                                    Numero de parametros: %s\
+                                        
+                                        
+                                        """,
+                                mtd.getName(),
+                                mtd,
+                                Modifier.toString(mtd.getModifiers()),
+                                mtd.getReturnType(),
+                                mtd.getParameterCount()));
 
                 if (mtd.getParameterCount() > 0) {
+                    descricao.append("Lista de parametros:\n");
                     Arrays.stream(mtd.getParameterTypes()).forEach(par ->
                             descricao.append("            * ").append(par.getName()).append("\n"));
                 } else {
-                    descricao.append("        Não há parametros nesse metodo\n");
+                    descricao.append("Não há parametros nesse metodo\n");
                 }
 
                 descricao.append("------------------------------------------------------------------------------------------------\n\n");
@@ -96,12 +122,26 @@ public class Reflexao {
 
         StringBuilder descricao = new StringBuilder();
         if (campos.length > 0) {
-            Arrays.stream(campos).forEach(fld -> descricao.append("\nFullname: ").append(fld)
-                    .append("\n\n--- Descricao geral ---\n")
-                    .append("\n     Nome: ").append(fld.getName())
-                    .append("\n     Modificadores: ").append(Modifier.toString(fld.getModifiers()))
-                    .append("\n     Tipo: ").append(fld.getType().getSimpleName())
-                    .append("\n------------------------------------------------------------------------------------------------\n"));
+            Arrays.stream(campos).forEach(fld -> descricao.append(
+                    String.format("""
+                                    ATRIBUTO: %s\
+                                    
+                                    
+                                        --- Descricao geral ---\
+                                    
+                                            Nome completo: %s\
+                                    
+                                            Modificadores: %s\
+                                    
+                                            Tipo: %s\
+                                    
+                                    ------------------------------------------------------------------------------------------------\
+                                    """,
+                            fld.getName(),
+                            fld,
+                            Modifier.toString(fld.getModifiers()),
+                            fld.getType().getSimpleName())));
+
         } else {
             descricao.append("\nNão há atributos\n");
         }

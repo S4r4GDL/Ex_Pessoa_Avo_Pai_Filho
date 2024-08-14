@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-    Reflexao.imprimeDadosClasse(JOptionPane.showInputDialog("Nome da classe:",
+    Reflexao.geraDadosClasse(JOptionPane.showInputDialog("Nome da classe:",
                 "Ex_Pessoa_Avo_Pai_Filho."));
     }
 }
