@@ -10,21 +10,17 @@ import java.util.stream.Stream;
 
 public class Reflexao {
 
-    public static void main(String[] args) {
+    public void printClasse(String classe){
 
         try {
 
-            Object inst = Class.forName(
-                    JOptionPane.showInputDialog("Nome da classe:",
-                            "Ex_Pessoa_Avo_Pai_Filho.")).getConstructor().newInstance();
+            Class<?> cls = Class.forName(classe);
 
-            Class<?> cls = inst.getClass();
 
             String message = "ENCONTRADO: " + cls.getName()
                     + "\nNOME DA CLASSE: " + cls.getSimpleName()
                     + "\nPODE SER ATRIBUÍDO DE PESSOA: " + ((Pessoa.class.isAssignableFrom(cls)) ? " SIM \n" : " NÃO \n")
-                    + "\nATRIBUTOS:\n" + getAllFields(cls)
-                    + "\nMÉTODOS:\n" + getAllMethods(cls);
+                    + processaClasse(cls, " ");
 
             JTextArea textArea = new JTextArea(message, 25, 45);
             textArea.setEditable(false);
@@ -43,16 +39,30 @@ public class Reflexao {
         }
     }
 
+    private String processaClasse(Class<?> cls, String result) {
+
+        Class<?> superclass = cls.getSuperclass();
+
+        result = result.concat(getAllFields(cls));
+        result = result.concat(getAllMethods(cls));
+
+        if(superclass != Object.class) {
+
+            result = result.concat(processaClasse(superclass, result));
+        }
+
+        return result;
+    }
+
     private static String getAllMethods(Class<?> cls) {
 
         StringBuilder methods = new StringBuilder();
 
         Method[] declaredMethods = cls.getDeclaredMethods();
-        Method[] superMethods = cls.getSuperclass().getDeclaredMethods();
 
-        Stream<Method> allMethods = Stream.concat(Arrays.stream(declaredMethods), Arrays.stream(superMethods));
+        Stream<Method> allMethods = Arrays.stream(declaredMethods);
 
-        if (Stream.concat(Arrays.stream(declaredMethods), Arrays.stream(superMethods)).findAny().isPresent()) {
+        if (Arrays.stream(declaredMethods).findAny().isPresent()) {
             allMethods.forEach(mtd -> {
 
                 methods.append("\nFullname: ")
@@ -86,10 +96,9 @@ public class Reflexao {
         StringBuilder fields = new StringBuilder();
 
         Field[] declaredFields = cls.getDeclaredFields();
-        Field[] superFields = cls.getSuperclass().getDeclaredFields();
 
-        Stream<Field> allFields = Stream.concat(Arrays.stream(declaredFields), Arrays.stream(superFields));
-        if (Stream.concat(Arrays.stream(declaredFields), Arrays.stream(superFields)).findAny().isPresent()) {
+        Stream<Field> allFields = Arrays.stream(declaredFields);
+        if (Arrays.stream(declaredFields).findAny().isPresent()) {
             allFields.forEach(fld -> {
 
                 fields.append("\nFullname: ").append(fld)
